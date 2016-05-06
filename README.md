@@ -81,4 +81,5 @@ plot( syr, border="gray", col=col.vector,  xlim=c(-76.31331,-75.89993), ylim=c(4
 
 ```
 
+![alt text](https://github.com/lecy/GIS-demographics/blob/master/example.png)
 

@@ -1,33 +1,35 @@
 
 
-# COUNTIES IN THE MSA
-
-Syracuse, NY (Metropolitan Statistical Area) (45060)
-
-Madison, NY [36053]
-Onondaga, NY [36067]
-Oswego, NY [36075]
+# COUNTIES IN THE SYRACUSE MSA
+# 
+# Syracuse, NY (Metropolitan Statistical Area) (45060)
+# 
+# Madison, NY [36053]
+# Onondaga, NY [36067]
+# Oswego, NY [36075]
 
 
 
 
 # CENSUS TABLES
-
-Median monthly housing costs B25105, median costs HD01_VD01
-
-Selected Housing Characteristics: DP04
-
-Means of Transit to Work: B08301
-
-Travel Time to Work: B08303, total travel time HD01_VD01
-
-Educational Attainment: S1501, % with bachelor degree HC01_EST_VC05
-
-Age: S0101
-
-Employment census data by tract only available for 2000.
-
-https://ask.census.gov/faq.php?id=5000&faqId=1185
+#
+# Data downloaded from Census 
+# 
+# Median monthly housing costs B25105, median costs HD01_VD01
+# 
+# Selected Housing Characteristics: DP04
+# 
+# Means of Transit to Work: B08301
+# 
+# Travel Time to Work: B08303, total travel time HD01_VD01
+# 
+# Educational Attainment: S1501, % with bachelor degree HC01_EST_VC05
+# 
+# Age: S0101
+# 
+# Employment census data by tract only available for 2000.
+# 
+# https://ask.census.gov/faq.php?id=5000&faqId=1185
 
 
 
@@ -41,7 +43,29 @@ library( sp )
 
 # LOAD SHAPEFILES
 
-setwd( "C:/Users/jdlecy/Dropbox/02 - CLASSES/02 - MASTERS/05 - Urban Policy/04 - Assignments/03 - Syracuse Demographics" )
+# setwd( "C:/Users/jdlecy/Dropbox/02 - CLASSES/02 - MASTERS/05 - Urban Policy/04 - Assignments/03 - Syracuse Demographics" )
+
+
+dir.create( "gisdata" )
+
+setwd( "./gisdata" )
+
+download.file( "https://github.com/lecy/GIS-demographics/raw/master/Data/tl_2014_us_uac10.zip", "syr_shapefiles.zip" )
+
+unzip( "syr_shapefiles.zip" )
+
+file.remove( "syr_shapefiles.zip" )
+
+download.file( "https://github.com/lecy/GIS-demographics/raw/master/Data/Census_Data.zip", "Census_Data.zip" )
+
+unzip( "Census_Data.zip" )
+
+file.remove( "Census_Data.zip" )
+
+
+
+
+
 
 ny <- readShapePoly( fn="tl_2014_36_tract",
                        proj4string=CRS("+proj=longlat +datum=WGS84") )
@@ -183,7 +207,7 @@ map.scale <- function (x, y, relwidth = 0.15, metric = TRUE, ratio = TRUE,
   
 
 
-# POP OVER 60
+# POP OVER 60 - 
 
 census.dat <- read.csv( "ACS_13_5YR_S0101_with_ann.csv", colClasses="character" )
 
@@ -197,7 +221,7 @@ census.dat <- census.dat[ fips %in% these , ]
 
 geo.id <- census.dat$GEO.id2
 
-over.60 <- as.numeric(census.dat$HC01_EST_VC29)
+over.60 <- as.numeric( census.dat$HC01_EST_VC29 )
 
 my.breaks <- quantile( over.60, probs=c(0, 0.20, 0.40, 0.60, 0.80, 1 ), na.rm=T )
 
@@ -220,7 +244,7 @@ plot( syr, border="gray", col=col.vector,
 
  
  
-pdf( "Syracuse Over 60 Population.pdf" )
+pdf( "./Results/Syracuse Over 60 Population.pdf" )
 
 
 plot( syr, border="NA", col=adjustcolor(col.vector, alpha.f = 0.7), 
@@ -253,7 +277,7 @@ dev.off()
 
 
 
-# CHILD DEPENDENCY RATIO
+# CHILD DEPENDENCY RATIO 
 
 census.dat <- read.csv( "ACS_13_5YR_S0101_with_ann.csv", colClasses="character" )
 
